@@ -1,0 +1,51 @@
+= Kotlin + Gradle for Java 9 - JPMS (Java Platform Module System)
+
+This is a _sandbox_ Kotlin app created to test out Java 9' Project Jigsaw functionality with Gradle.
+
+For Project Jigsaw, without gradle, check this tutorial: +
+http://openjdk.java.net/projects/jigsaw/quick-start
+
+For Maven, check my other repo: +
+https://github.com/vihangpatil/java-modules
+
+I have used the ServiceLoader API and have used default constructors for implementing classes.
+
+== Experiment
+
+ * Created an `interface Shape`
+ * Created two implementations `class Circle` and `class Square` of `interface Shape`.
+ * Main `app` should have `compile-time` dependency on `interface Shape`,
+    but `runtime` dependency on implementations.
+
+== Gradle Projects
+1. **shape**
+   * This project has modules - `shape`, `circle` and `square`.
+2. **app**
+   * This project has main function.
+   * This project has module with same name - `app`.
+   * It has *implementation* (compile) dependency on `shape` project.
+
+== Modules
+
+1. **shape**
+    * Module which has `interface Shape`.
+    * This module *provides* modules `Circle` and `Square`.
+2. **circle** (Impl)
+    * This module has `class Circle` which is implementation of `interface Shape`.
+3. **square** (Impl)
+    * This module has `class Square` which is implementation of `interface Shape`.
+4. **app**
+    * This module has the `main` method.
+    * It will use `getShape()` factory method in **API**,
+   which will create objects of `Circle` and `Square` using ServiceLoader API.
+    * Try to uncomment the lines which are trying to use `Circle` class at _compile-time_. It should give a compile-time error.
+
+== Conclusion
+
+`app` project, which has `app` module, has *implementation* (compile) dependency on `shape` project. +
+So, `main` method in `app` module is only able to access `Shape` interface at compile-time. +
+`Circle` and `Square` are not accessible since they are in different module.
+
+
+The implementations `Circle` and `Square` are _provided_ to `app` module by `shape` module.
+
