@@ -49,3 +49,8 @@ So, `main` method in `app` module is only able to access `Shape` interface at co
 
 The implementations `Circle` and `Square` are _provided_ to `app` module by `shape` module.
 
+== Limitations
+1. `org.gradle.java.experimental-jigsaw` plugin has stopped working with latest version of gradle. So, added gradle wrapper to lock the gradle version to "5.6.4".
+2. The gradle version "5.6.4" does not work with latest version of Java. So, using Java 11.
+3. The gradle configurations are migrated to Kotlin Script.  But for `app` project, I'm unable to set an `ext` property. So, I have reverted back to groovy file, which takes precedence over `.kts` file.
+4. Top level `./gradlew build` was not working and needed explicit build of `shape` before `app`.  Added a patch to force that order of task execution to make it work.

@@ -1,7 +1,0 @@
-rootProject.name = 'kotlin-modules'
-
-include ':app'
-include ':shape'
-
-project(':app').projectDir = "$rootDir/app" as File
-project(':shape').projectDir = "$rootDir/shape" as File

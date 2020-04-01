@@ -4,7 +4,7 @@ package io.github.vihangpatil.kotlin.modules.app
 import io.github.vihangpatil.kotlin.modules.lib.inf.Shape
 import io.github.vihangpatil.kotlin.modules.lib.inf.getShape
 
-fun main(args: Array<String>) {
+fun main() {
 
     // Circle and Square should be found, but Rectangle should not be found
     listOf("Circle", "Square", "Rectangle")
