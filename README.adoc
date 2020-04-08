@@ -1,5 +1,9 @@
 = Kotlin + Gradle for Java 9 - JPMS (Java Platform Module System)
 
+image:https://travis-ci.org/vihangpatil/kotlin-modules.svg?branch=master[Build Status]
+image:https://img.shields.io/badge/kotlin-1.3.71-blue.svg[Kotlin version badge]
+image:https://img.shields.io/github/license/vihangpatil/kotlin-modules.svg[GitHub license]
+
 This is a _sandbox_ Kotlin app created to test out Java 9' Project Jigsaw functionality with Gradle.
 
 For Project Jigsaw, without gradle, check this tutorial: +

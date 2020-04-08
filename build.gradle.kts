@@ -1,11 +1,11 @@
-import java.net.URI
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
 
 plugins {
-  kotlin("jvm") version "1.3.70" apply false
+  kotlin("jvm") version "1.3.71" apply false
   id("org.gradle.java.experimental-jigsaw") version "0.1.1"
-  id("project-report")
   id("com.github.johnrengelman.shadow") version "5.2.0" apply false
-  id("com.github.ben-manes.versions") version "0.20.0"
+  id("com.github.ben-manes.versions") version "0.28.0"
 }
 
 subprojects {
@@ -16,9 +16,34 @@ subprojects {
   repositories {
     mavenCentral()
     jcenter()
-    maven { url = URI("https://repository.jboss.org/nexus/content/repositories/releases/") }
-    maven { url = URI("https://maven.repository.redhat.com/ga/") }
-    maven { url = URI("http://clojars.org/repo/") }
   }
 }
 
+fun isNonStable(version: String): Boolean {
+  val regex = "^[0-9,.v-]+$".toRegex()
+  val isStable = regex.matches(version)
+  return isStable.not()
+}
+
+tasks.withType<DependencyUpdatesTask> {
+  // Example 1: reject all non stable versions
+  rejectVersionIf {
+    isNonStable(candidate.version)
+  }
+
+  // Example 2: disallow release candidates as upgradable versions from stable versions
+  rejectVersionIf {
+    isNonStable(candidate.version) && !isNonStable(currentVersion)
+  }
+
+  // Example 3: using the full syntax
+  resolutionStrategy {
+    componentSelection {
+      all {
+        if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+          reject("Release candidate")
+        }
+      }
+    }
+  }
+}
